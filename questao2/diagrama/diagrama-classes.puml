@@ -1,0 +1,98 @@
+@startuml
+title Questão 2 - Abstract Factory
+
+skinparam classAttributeIconSize 0
+
+interface KitConformidadePais {
+  + criarDocumentoFiscal() : DocumentoFiscal
+  + criarCobranca() : Cobranca
+  + criarTermoPrivacidade() : TermoPrivacidade
+}
+
+class KitConformidadeBrasil {
+  + criarDocumentoFiscal() : DocumentoFiscal
+  + criarCobranca() : Cobranca
+  + criarTermoPrivacidade() : TermoPrivacidade
+}
+
+class KitConformidadeMexico {
+  + criarDocumentoFiscal() : DocumentoFiscal
+  + criarCobranca() : Cobranca
+  + criarTermoPrivacidade() : TermoPrivacidade
+}
+
+interface DocumentoFiscal {
+  + getDescricao() : String
+}
+
+interface Cobranca {
+  + getDescricao() : String
+}
+
+interface TermoPrivacidade {
+  + getDescricao() : String
+}
+
+class NotaServicoEletronica {
+  + getDescricao() : String
+}
+
+class Cfdi {
+  + getDescricao() : String
+}
+
+class CobrancaPix {
+  + getDescricao() : String
+}
+
+class CobrancaSpei {
+  + getDescricao() : String
+}
+
+class TermoLgpd {
+  + getDescricao() : String
+}
+
+class TermoLfpdppp {
+  + getDescricao() : String
+}
+
+class Assinatura {
+  - cliente : String
+  - kit : KitConformidadePais
+  + Assinatura(cliente : String, kit : KitConformidadePais)
+  + ativar() : void
+}
+
+class Main {
+  + {static} main(args : String[]) : void
+}
+
+KitConformidadeBrasil ..|> KitConformidadePais
+KitConformidadeMexico ..|> KitConformidadePais
+
+NotaServicoEletronica ..|> DocumentoFiscal
+Cfdi ..|> DocumentoFiscal
+CobrancaPix ..|> Cobranca
+CobrancaSpei ..|> Cobranca
+TermoLgpd ..|> TermoPrivacidade
+TermoLfpdppp ..|> TermoPrivacidade
+
+KitConformidadeBrasil ..> NotaServicoEletronica : cria
+KitConformidadeBrasil ..> CobrancaPix : cria
+KitConformidadeBrasil ..> TermoLgpd : cria
+
+KitConformidadeMexico ..> Cfdi : cria
+KitConformidadeMexico ..> CobrancaSpei : cria
+KitConformidadeMexico ..> TermoLfpdppp : cria
+
+Assinatura --> KitConformidadePais
+Assinatura ..> DocumentoFiscal
+Assinatura ..> Cobranca
+Assinatura ..> TermoPrivacidade
+
+Main ..> Assinatura
+Main ..> KitConformidadeBrasil
+Main ..> KitConformidadeMexico
+
+@enduml
